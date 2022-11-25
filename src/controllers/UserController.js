@@ -44,8 +44,21 @@ module.exports = {
 
     if (!userExists) return response.send(400, { error: 'User not found' });
 
-    users = users.map(user => user.id === id ? { ...user, name }:  user);
+    users = users.map(user => user.id === id ? { ...user, name } : user);
 
     response.send(200, { id, name });
+  },
+  deleteUser(request, response) {
+    let { id } = request.params;
+
+    id = Number(id);
+
+    const userExists = users.find(user => user.id === id);
+
+    if (!userExists) return response.send(400, { error: 'User not found' });
+
+    users = users.filter(user => user.id !== id);
+
+    response.send(200, { deleted: true });
   }
 }
